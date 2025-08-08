@@ -1,29 +1,34 @@
 import { useState } from "react";
 import Post from "./Post";
 import NewPost from "./NewPost";
+import Modal from "./Modal";
 import classes from "./PostList.module.css";
+
 function PostList() {
-  const [textData, setTextData] = useState("");
-  const [authorData, setAuthorData] = useState("");
+  const [enteredText, setEnteredText] = useState("");
+  const [enteredAuthor, setEnteredAuthor] = useState("");
 
   function changeBodyHandler(e) {
-    setTextData(e.target.value);
+    setEnteredText(e.target.value);
   }
   function changeAuthorHandler(e) {
-    setAuthorData(e.target.value);
+    setEnteredAuthor(e.target.value);
   }
   // This function will handle changes to the post body
 
   return (
     <>
-      <NewPost
-        onTextChange={changeBodyHandler}
-        onAuthorChange={changeAuthorHandler}
-      />
+      <Modal>
+        <NewPost
+          onTextChange={changeBodyHandler}
+          onAuthorChange={changeAuthorHandler}
+        />
+      </Modal>
+      
       <ul className={classes.posts}>
-        <Post author={authorData} text={textData} />
+        <Post author={enteredAuthor} text={enteredText} />
 
-        <Post author="Victoer Ototkpa" text="Nextjs IS so Awesome!!" />
+        <Post author="Victor Ototkpa" text="Nextjs IS so Awesome!!" />
       </ul>
     </>
   );
