@@ -1,35 +1,41 @@
-import { useState } from "react";
 import Post from "./Post";
 import NewPost from "./NewPost";
 import Modal from "./Modal";
 import classes from "./PostList.module.css";
+import { useState } from "react";
 
-function PostList() {
-  const [enteredText, setEnteredText] = useState("");
-  const [enteredAuthor, setEnteredAuthor] = useState("");
+function PostList({ isPosting, onStopPosting }) {
+  const [posts, setPosts] = useState([]);
 
-  function changeBodyHandler(e) {
-    setEnteredText(e.target.value);
+  function addPostHandler(postData) {
+    setPosts((prevPosts) => [postData, ...prevPosts]);
   }
-  function changeAuthorHandler(e) {
-    setEnteredAuthor(e.target.value);
-  }
-  // This function will handle changes to the post body
-
   return (
     <>
-      <Modal>
-        <NewPost
-          onTextChange={changeBodyHandler}
-          onAuthorChange={changeAuthorHandler}
-        />
-      </Modal>
-      
-      <ul className={classes.posts}>
-        <Post author={enteredAuthor} text={enteredText} />
+      {isPosting && (
+        <Modal onClose={onStopPosting}>
+          <NewPost onCancel={onStopPosting} onAddPost={addPostHandler} />
+        </Modal>
+      )}
 
-        <Post author="Victor Ototkpa" text="Nextjs IS so Awesome!!" />
-      </ul>
+      {posts.length > 0 && (
+        <ul className={classes.posts}>
+          {posts.map((post, index) => (
+            <Post
+              key={index}
+              author={post.author}
+              text={post.text}
+              createdAt={post.createdAt}
+            />
+          ))}
+        </ul>
+      )}
+      {posts.length === 0 && (
+        <div style={{ textAlign: "center", color: "white" }}>
+          <h1>There is no post yet.</h1>
+          <p>Start adding some!</p>
+        </div>
+      )}
     </>
   );
 }
