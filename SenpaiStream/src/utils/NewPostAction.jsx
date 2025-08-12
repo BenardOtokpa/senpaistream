@@ -4,7 +4,7 @@ export async function action({ request }) {
   const formData = await request.formData();
   const postData = Object.fromEntries(formData);
   postData.createdAt = new Date().toISOString(); // Add a timestamp for the post
-  await fetch("http://localhost:8080/posts", {
+  await fetch("https://senpai-dummy-backend-repo.onrender.com/posts", {
     method: "POST",
     body: JSON.stringify(postData),
     headers: {
