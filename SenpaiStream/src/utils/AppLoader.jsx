@@ -1,5 +1,5 @@
 export async function loader() {
-  const response = await fetch("http://localhost:8080/posts");
+  const response = await fetch("https://senpai-dummy-backend-repo.onrender.com/posts");
       if (!response.ok) {
         throw new Error("Failed to fetch posts");
       }
